@@ -8,7 +8,7 @@ module.exports = function(api) {
         {
           root: './',
           alias: {
-            // '@/folder': './src/folder',
+            '@/store': './src/store',
           },
         },
       ],

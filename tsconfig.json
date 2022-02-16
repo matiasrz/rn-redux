@@ -12,7 +12,7 @@
     "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      // "@/folder/*": ["src/folder/*"],
+      "@/store/*": ["src/store/*"],
     },
     "resolveJsonModule": true,
   },
