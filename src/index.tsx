@@ -1,22 +1,19 @@
 import React, { FC, useState } from 'react'
-import { connect } from 'react-redux'
 import { Button, FlatList, Text, TextInput, View } from 'react-native'
 
-import { AppDispatch } from '@/store/'
-import { addItem, removeItem } from '@/store/actions/ToDo'
-import { IRootState, IToDoItem, ToDoStateMap, ToDoDispatchMap, ToDoStatus } from '@/store/types'
+import { ITodoItem, TodoStatus } from '@/store/types'
+import { connectBatchThunkTo, rdxConnect } from './hoc/todo'
 
-type reduxConnect = ToDoStateMap & ToDoDispatchMap
 
-const Index: FC<reduxConnect> = ({ todo: { list }, _addItem, _removeItem }) => {
+const Index: FC<rdxConnect> = ({ todo: { list }, _addItem, _removeItem, _itemStatusTransition }) => {
   const [title, setTitle] = useState<string>()
 
   const onAddItem = () => {
     if (title && title.length > 0) {
-      const item: IToDoItem = {
+      const item: ITodoItem = {
         id: list.length + 1,
         title: title,
-        status: ToDoStatus.PENDING
+        status: TodoStatus.PENDING
       }
       _addItem(item)
       setTitle('')
@@ -26,7 +23,7 @@ const Index: FC<reduxConnect> = ({ todo: { list }, _addItem, _removeItem }) => {
   const renderItem = ({ item: { id, title, status }}) => (
     <View key={`item-${id}`} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <Text style={{ fontSize: 15, color: '#c0c0c0', textTransform: 'uppercase' }}>{`[${ToDoStatus[status]}]`}</Text>
+        <Text style={{ fontSize: 15, color: '#c0c0c0', textTransform: 'uppercase' }}>{`[${TodoStatus[status]}]`}</Text>
         <Text style={{ flex: 1, marginLeft: 5 }}>{title}</Text>
       </View>
       <Button
@@ -53,6 +50,11 @@ const Index: FC<reduxConnect> = ({ todo: { list }, _addItem, _removeItem }) => {
           title="Add Item"
           color="#841584"
         />
+        <Button
+          onPress={() => _itemStatusTransition(1)}
+          title="Comlete"
+          color="#25DB68"
+        />
       </View>
       <FlatList
         data={list}
@@ -64,13 +66,4 @@ const Index: FC<reduxConnect> = ({ todo: { list }, _addItem, _removeItem }) => {
   )
 }
 
-const mapStateToProps = (state: IRootState) => ({
-  todo: state.todo
-})
-
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  _addItem: (itemParams: IToDoItem) => dispatch(addItem(itemParams)),
-  _removeItem: (id: number) => dispatch(removeItem(id)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default connectBatchThunkTo(Index)

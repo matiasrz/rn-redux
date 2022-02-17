@@ -1,26 +1,26 @@
 /**
- * Enum to list all the possible status for a ToDo item.
+ * Enum to list all the possible status for a Todo item.
  */
-export enum ToDoStatus { PENDING, IN_PROGRESS, COMPLETED, FAILED }
+export enum TodoStatus { PENDING, IN_PROGRESS, COMPLETED, FAILED }
 
 /**
- * Interface for Todo item for IToDoState list.
- * @interface IToDoItem
+ * Interface for Todo item for ITodoState list.
+ * @interface ITodoItem
  */
- export interface IToDoItem {
+ export interface ITodoItem {
   id: number,
   title: string,
   description?: string
-  status: ToDoStatus,
+  status: TodoStatus,
 }
 
 /**
  * Interface for Todo Reducer Initial State
- * @interface IToDoState
+ * @interface ITodoState
  */
- export interface IToDoState {
+ export interface ITodoState {
   filter: string,
-  list: IToDoItem[]
+  list: ITodoItem[]
 }
 
 /**
@@ -28,22 +28,23 @@ export enum ToDoStatus { PENDING, IN_PROGRESS, COMPLETED, FAILED }
  * @interface IRootState
  */
  export interface IRootState {
-  todo: IToDoState,
+  todo: ITodoState,
 }
 
 /**
  * Interface to map state when connect occurs.
- * @interface ToDoStateMap
+ * @interface TodoStateMap
  */
-export interface ToDoStateMap {
-  todo: IToDoState,
+export interface TodoStateMap {
+  todo: ITodoState,
 }
 
 /**
  * Interface to map state when connect occurs.
- * @interface ToDoStateMap
+ * @interface TodoStateMap
  */
-export interface ToDoDispatchMap {
-  _addItem: (itemParams: IToDoItem) => any,
+export interface TodoDispatchMap {
+  _addItem: (itemParams: ITodoItem) => any,
   _removeItem: (id: number) => any,
+  _itemStatusTransition: (id: number) => any,
 }

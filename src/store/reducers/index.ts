@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 
 import { IRootState } from '../types'
-import toDoReducer from './ToDo'
+import todoReducer from './todo'
 
 export default combineReducers<IRootState>({
-  todo: toDoReducer
+  todo: todoReducer
 })
